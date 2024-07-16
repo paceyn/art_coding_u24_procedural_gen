@@ -2,8 +2,15 @@ extends Node2D
 
 @export var color = Color.BLACK
 @export var width = 2
+
 @export var radius = 100
-@export var point_count = 90
+@export var max_radius = 120
+
+@export var point_count = 16
+
+@export var grow_speed_1 = 20
+@export var grow_speed_2 = 5
+@export var shrink_speed = 50
 @export var fluctuation_frequency = 1
 @export var fluctuation_range = 10
 
@@ -41,13 +48,20 @@ func apply_changes():
 func _ready():
 	line = $Line2D
 	apply_changes()
-	radii[0] = 120
+	radii[0] = 130
 
 
 func _process(delta):
 	for i in range(point_count):
 		radii[i] += delta * radii_delta[i]
-		radii_delta[i] = (radius - radii[pc_wrap(i - 1)]) - (radius - radii[i])
+		
+		if radii[i] > max_radius:
+			radii_delta[i] -= shrink_speed * delta
+			radii_delta[pc_wrap(i + 1)] += grow_speed_1 * delta
+			radii_delta[pc_wrap(i + 2)] += grow_speed_2 * delta
+		if radii[i] < radius:
+			radii[i] = radius
+			radii_delta[i] = 0
 		
 		var theta = step_size * i
 		line.set_point_position(i, Vector2(radii[i] * cos(theta) + position.x, radii[i] * sin(theta) + position.y))
