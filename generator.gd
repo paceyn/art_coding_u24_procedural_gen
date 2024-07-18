@@ -1,10 +1,10 @@
 extends Node2D
 
-@export var circle_count = 3
-@export var min_circle_points = 16
-@export var max_circle_points = 32
-@export var droplet_bloom = 1
-@export var chaos = 1
+@export var circle_count = 8
+@export var min_circle_points = 90
+@export var max_circle_points = 45
+@export var droplet_bloom = 2
+@export var chaos = 20
 
 var random
 
@@ -41,11 +41,21 @@ func generate():
 		var new_circle = load(inner_circle).instantiate()
 		new_circle.radius = circle_sizes[i]
 		new_circle.point_count = circle_points[i]
+		
+		if i == circle_count - 1:
+			new_circle.fluctuation_max_height = (circle_sizes[i]) / 3
+		else:
+			new_circle.fluctuation_max_height = (circle_sizes[i+1] - circle_sizes[i]) / 2
+		new_circle.fluctuation_particle_theta_variance = droplet_bloom
+		new_circle.fluctuation_particle_turn_speed_variance = 3 * droplet_bloom
+		new_circle.fluctuation_min_height = 20 * droplet_bloom
+		new_circle.fluctuation_max_height = 40 * droplet_bloom
+		
+		new_circle.fluctuation_frequency = 500 / chaos
 		add_child(new_circle)
 
 
 func _ready():
 	random = RandomNumberGenerator.new()
 	
-	print("there")
 	generate()

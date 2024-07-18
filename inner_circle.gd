@@ -15,6 +15,9 @@ extends Node2D
 @export var fluctuation_particle_count_min = 3
 @export var fluctuation_particle_count_max = 6
 
+@export var fluctuation_particle_turn_speed_variance = 5
+@export var fluctuation_particle_theta_variance = 1
+
 var line
 var radii
 var radii_delta
@@ -73,6 +76,8 @@ func _process(delta):
 					var new_particle = load(fluctuation_particle).instantiate()
 					new_particle.position = Vector2(radii[i] * cos(theta) + position.x, radii[i] * sin(theta) + position.y)
 					new_particle.theta = theta
+					new_particle.theta_variance = fluctuation_particle_theta_variance
+					new_particle.turn_speed_variance = fluctuation_particle_turn_speed_variance
 					new_particle.color = color
 					if radii[i] < radius:
 						new_particle.theta *= -1

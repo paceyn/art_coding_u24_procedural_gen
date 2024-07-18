@@ -33,10 +33,7 @@ func _ready():
 	move_speed = (randi() % max_move_speed - min_move_speed) + min_move_speed
 	turn_speed = random.randfn(0, turn_speed_variance) / PI
 	time_speed = 1
-	print(theta)
 	theta += random.randfn(0, theta_variance) / PI
-	print(theta)
-	print("---")
 	
 	line.add_point(Vector2.ZERO)
 	line_length = 1

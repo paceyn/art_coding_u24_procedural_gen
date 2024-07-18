@@ -2,7 +2,6 @@ extends Button
 
 
 func _ready():
-	print(get_tree().root.get_node("Main").get_node("Generator").generate())
 	pressed.connect(_button_pressed.bind())
 
 
