@@ -81,7 +81,6 @@ func _process(delta):
 					new_particle.color = color
 					if radii[i] < radius:
 						new_particle.theta *= -1
-						print("flip")
 					add_child(new_particle)
 				fluctuation_particles_emitted = true
 				
